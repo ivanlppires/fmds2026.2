@@ -5,11 +5,11 @@
   <!-- interpolação {{  }} = Exibe o valor de uma variável do script no template -->
   
   <h1>Cadastro de usuário</h1>
-  <input type="text" placeholder="Nome" /><br>
-  <input type="number" placeholder="Idade" /><br>
-  <input type="email" placeholder="Email" /><br>
+  <input type="text" placeholder="Nome" v-model="nome" /><br>
+  <input type="number" placeholder="Idade" v-model="idade" /><br>
+  <input type="email" placeholder="Email" v-model="email" /><br>
  
-  <button>Resetar</button>
+  <button @click="resetar">Resetar</button>
   <hr>
   <p><b>Preenchimento de dados</b></p>
   <p>Nome: {{ nome }}</p>
@@ -18,6 +18,16 @@
 </template>
 
 <script setup>  
+import { ref } from 'vue'
+const nome = ref('')
+const idade = ref(0)
+const email = ref('')
+
+const resetar = () => {
+  nome.value = ''
+  idade.value = 0
+  email.value = '' 
+}
 
 </script>
 
