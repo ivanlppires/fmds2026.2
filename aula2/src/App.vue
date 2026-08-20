@@ -4,25 +4,20 @@
   <!-- v-model (two-way data-bind) = liga o valor de um input com uma variável do script -->
   <!-- interpolação {{  }} = Exibe o valor de uma variável do script no template -->
   
-  <h1>{{ nome }}</h1>
-  <p :style="{ color: cor }">{{  nome  }}</p>
-
-  <input type="button" :value="cor" @click="mudacor" />
-
-  <p>Digite seu nome:</p>
-  <input type="text" v-model="nome" />
-
+  <h1>Cadastro de usuário</h1>
+  <input type="text" placeholder="Nome" /><br>
+  <input type="number" placeholder="Idade" /><br>
+  <input type="email" placeholder="Email" /><br>
+ 
+  <button>Resetar</button>
+  <hr>
+  <p><b>Preenchimento de dados</b></p>
+  <p>Nome: {{ nome }}</p>
+  <p>Idade: {{ idade }}</p>
+  <p>Email: {{ email }}</p>
 </template>
 
-<script setup>
-  import { ref } from 'vue';
-  const nome = ref("João");
-  const cor = ref('orange');
-
-  const mudacor = () => {
-    window.alert("Mudando a cor");
-    cor.value = cor.value === 'orange' ? 'blue' : 'orange';
-  }
+<script setup>  
 
 </script>
 
