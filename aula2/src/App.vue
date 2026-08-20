@@ -9,11 +9,14 @@
 
   <input type="button" :value="cor" @click="mudacor" />
 
+  <p>Digite seu nome:</p>
+  <input type="text" v-model="nome" />
+
 </template>
 
 <script setup>
   import { ref } from 'vue';
-  const nome = "João";
+  const nome = ref("João");
   const cor = ref('orange');
 
   const mudacor = () => {
