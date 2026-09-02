@@ -30,7 +30,8 @@ const perfumes = ref([
       <ul>
         <li v-for="peca in pecas" :key="peca.id">
           <b>{{ peca.nome }}</b><br>
-          <i> {{ peca.quantidade }} unidades</i> - <u>R$ {{ peca.preco }} </u>
+          <i> {{ peca.quantidade }} unidades</i>
+           - <u>R$ {{ peca.preco }} </u>
         </li>
       </ul>
     </section>
@@ -42,4 +43,14 @@ const perfumes = ref([
 
 </template>
 
-<style scoped></style>
+<style scoped>
+ul{
+  margin: 0;
+  padding: 0;
+}
+li{
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #ccc; 
+}
+</style>
