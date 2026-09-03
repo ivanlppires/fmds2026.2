@@ -5,6 +5,12 @@
  */
 import { ref } from "vue";
 
+const pecas = ref([
+  { id: 1, nome: "Pneu", quantidade: 10, preco: 100 },
+  { id: 2, nome: "Amortecedor", quantidade: 5, preco: 200 },
+  { id: 3, nome: "Filtro de óleo", quantidade: 15, preco: 50 },
+]);
+
 const perfumes = ref([
   { id: 100, nome: "212 Vip", quantidade: 20, preco: 150 },
   { id: 205, nome: "Al Noble", quantidade: 0, preco: 250 },
@@ -29,6 +35,26 @@ const removerIndex = (i) => {
   // na posição i remova 1 elemento 
   perfumes.value.splice(i, 1);
 }
+const novaPeca = ref({ nome: '', quantidade: 0, preco: 0 });
+
+const salvarPeca = () => {
+  // adicione a nova peça no vetor de peças
+
+  if (editIndex.value != -1) {
+    pecas.value[editIndex.value] = novaPeca.value
+    editIndex.value = -1;
+  } else {
+    alert('cadastrar')
+    novaPeca.value.id = Date.now();
+    pecas.value.push({ ...novaPeca.value });
+  }
+  novaPeca.value = { nome: '', quantidade: 0, preco: 0 };
+}
+const editar = (index) => {
+  novaPeca.value = { ...pecas.value[index] };
+  editIndex.value = index;
+}
+const editIndex = ref(-1);
 </script>
 
 <template>
@@ -48,11 +74,26 @@ const removerIndex = (i) => {
       <section>
         <button @click="logado = false">Sair</button>
         <h2>Peças</h2>
+
+        <p>Adicionar novas peças</p>
+        <label for="pecaNome">Nome</label>
+        <input type="text" id="pecaNome" v-model="novaPeca.nome">
+
+        <label for="pecaQuantidade">Quantidade</label>
+        <input type="number" id="pecaQuantidade" v-model="novaPeca.quantidade">
+
+        <label for="pecaPreco">Preço</label>
+        <input type="number" id="pecaPreco" v-model="novaPeca.preco">
+
+        <button @click="salvarPeca">Salvar</button>
+
         <ul>
-          <li v-for="peca in pecas" :key="peca.id">
+          <li v-for="(peca, index) in pecas" :key="peca.id">
+            <small>ID: {{ peca.id }}</small><br>
             <b>{{ peca.nome }}</b><br>
             <i> {{ peca.quantidade }} unidades</i>
             - <u>R$ {{ peca.preco }} </u>
+            <button @click="editar(index)">Editar</button>
           </li>
         </ul>
       </section>
