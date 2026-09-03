@@ -18,6 +18,10 @@ const perfumes = ref([
   { id: 4, nome: "Cebolinha", quantidade: 15, preco: 300 },
 ]);
 
+const logado = ref(false);
+const logar = () => {
+  logado.value = true;
+};
 </script>
 
 <template>
@@ -25,32 +29,55 @@ const perfumes = ref([
     <h1>Lista de peças & perfumes</h1>
   </header>
   <main>
-    <section>
-      <h2>Peças</h2>
-      <ul>
-        <li v-for="peca in pecas" :key="peca.id">
-          <b>{{ peca.nome }}</b><br>
-          <i> {{ peca.quantidade }} unidades</i>
-           - <u>R$ {{ peca.preco }} </u>
-        </li>
-      </ul>
+    <section v-if="!logado">
+      <p>Faça Login</p>
+      <i>Faça o login se o usuario for joao e senha 123</i>
+      <br>
+      <button @click="logar">Entrar</button>
     </section>
-    <section>
-      <h2>Perfumes</h2>
-      <!-- faça uma TABELA de perfumes usando v-for -->
+    <section v-else>
+      <section>
+        <button @click="logado = false">Sair</button>
+        <h2>Peças</h2>
+        <ul>
+          <li v-for="peca in pecas" :key="peca.id">
+            <b>{{ peca.nome }}</b><br>
+            <i> {{ peca.quantidade }} unidades</i>
+            - <u>R$ {{ peca.preco }} </u>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>Perfumes</h2>
+        <!-- faça uma TABELA de perfumes usando v-for -->
+        <table border="1">
+          <tr>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+          </tr>
+          <tr v-for="p in perfumes" :key="p.id">
+            <td v-html="p.nome"></td>
+            <td v-html="p.quantidade"></td>
+            <td v-html="p.preco"></td>
+          </tr>
+        </table>
+        <br><br>
+      </section>
     </section>
   </main>
 
 </template>
 
 <style scoped>
-ul{
+ul {
   margin: 0;
   padding: 0;
 }
-li{
+
+li {
   list-style: none;
   padding: 10px;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }
 </style>
