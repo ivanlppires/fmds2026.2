@@ -33,6 +33,8 @@ const logar = () => {
       <p>Faça Login</p>
       <i>Faça o login se o usuario for joao e senha 123</i>
       <br>
+      <input type="text" placeholder="usuario" v-model="usuario">
+      <br>
       <button @click="logar">Entrar</button>
     </section>
     <section v-else>
