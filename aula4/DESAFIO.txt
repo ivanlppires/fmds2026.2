@@ -5,6 +5,6 @@ Construa um app  (DO ZERO) não é pra pegar o meu e trocar o nome.
 Este app de ver os seguintes menus:
 
 1 - Início
-2 - Gerenciamento de Clientes (CRUD)
+2 - Gerenciamento de Clientes (CRUD) *procurem por data table
 3 - Relatórios (Dashboard)
 4 - Configuração
