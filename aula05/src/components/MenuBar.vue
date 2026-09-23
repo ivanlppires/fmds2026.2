@@ -16,6 +16,8 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+const drawer = ref(null)
 const links = [
     ['mdi-inbox-arrow-down', 'Inbox'],
     ['mdi-send', 'Send'],
