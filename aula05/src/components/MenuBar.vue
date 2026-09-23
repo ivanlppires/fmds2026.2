@@ -1,9 +1,7 @@
 <template>
     <v-navigation-drawer v-model="drawer">
-        <v-sheet class="pa-4" color="grey-lighten-4">
-            <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
-
-            <div>john@google.com</div>
+        <v-sheet class="pa-4 text-center" color="blue-darken-4" dark>
+            MEU SISTEMA 1.0
         </v-sheet>
 
         <v-divider></v-divider>
@@ -19,9 +17,8 @@
 import { ref } from 'vue'
 const drawer = ref(null)
 const links = [
-    ['mdi-inbox-arrow-down', 'Inbox'],
-    ['mdi-send', 'Send'],
-    ['mdi-delete', 'Trash'],
-    ['mdi-alert-octagon', 'Spam'],
+    ['mdi-home', 'Página Inicial'],
+    ['mdi-account-search', 'Busca Clientes'],
+    ['mdi-account-plus', 'Gerenciar Clientes']
 ]
 </script>
