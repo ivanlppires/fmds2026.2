@@ -34,17 +34,25 @@
                 {{ isEditing ? 'Atualizar' : 'Adicionar' }} Cliente
             </v-card-title>
             <v-card-text>
-                <v-row> 
-                    <v-col cols="12" sm="12">
-                        <v-text-field label="Nome" v-model="formModel.name" />
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-text-field label="Email" v-model="formModel.email" />
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-text-field label="Telefone" v-model="formModel.phone" />
-                    </v-col>
-                </v-row>
+                <form @submit.prevent="submit">
+                    <v-row>
+                        <v-col cols="12" sm="12">
+                            <v-text-field label="Nome" 
+                            :error-messages="name.errorMessage.value"
+                            v-model="name.value" />
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field label="Email"
+                            :error-messages="email.errorMessage.value"
+                            v-model="email.value" />
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field label="Telefone" 
+                            :error-messages="phone.errorMessage.value"
+                            v-model="phone.value" />
+                        </v-col>
+                    </v-row>
+                </form>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -54,13 +62,37 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn text="Salvar" @click="save"></v-btn>
+                <v-btn text="Salvar" @click="submit"></v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 <script setup>
 import { onMounted, ref, shallowRef, computed } from 'vue'
+import { useField, useForm } from 'vee-validate'
+const { handleSubmit, resetForm, setValues } = useForm({
+    validationSchema: {
+        name(value) {
+            if (value?.length >= 2) return true
+
+            return 'Name needs to be at least 2 characters.'
+        },
+        phone(value) {
+            if (/^[0-9-]{7,}$/.test(value)) return true
+
+            return 'Phone number needs to be at least 7 digits.'
+        },
+        email(value) {
+            if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+            return 'Must be a valid e-mail.'
+        },
+    },
+})
+
+const name = useField('name')
+const email = useField('email')
+const phone = useField('phone')
 
 function createNewRecord() {
     return {
@@ -74,7 +106,7 @@ function createNewRecord() {
 const clients = ref([])
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)
-const isEditing = computed( ()=> formModel.value.id !== '' );
+const isEditing = computed(() => formModel.value.id !== '');
 
 
 const headers = [
@@ -91,6 +123,7 @@ onMounted(() => {
 
 function add() {
     formModel.value = createNewRecord()
+    resetForm({ values: formModel.value })
     dialog.value = true
 }
 
@@ -104,6 +137,12 @@ function edit(id) {
         phone: found.phone,
     }
 
+    setValues({
+        name: found.name,
+        email: found.email,
+        phone: found.phone,
+    })
+
     dialog.value = true
 }
 
@@ -112,21 +151,26 @@ function remove(id) {
     clients.value.splice(index, 1)
 }
 
-function save() {
+const submit = handleSubmit(values => {
+    formModel.value.name = values.name
+    formModel.value.email = values.email
+    formModel.value.phone = values.phone
+
     if (isEditing.value) {
         const index = clients.value.findIndex(client => client.id === formModel.value.id)
-        clients.value[index] = formModel.value
+        clients.value[index] = { ...formModel.value }
     } else {
-        formModel.value.id = clients.value.length + 1
-        clients.value.push(formModel.value)
+        formModel.value.id = Date.now()
+        clients.value.push({ ...formModel.value })
     }
 
     dialog.value = false
-}
+})
 
 function reset() {
     dialog.value = false
     formModel.value = createNewRecord()
+    resetForm({ values: formModel.value })
     clients.value = []
 }
 </script>
