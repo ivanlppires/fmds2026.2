@@ -7,7 +7,7 @@
                         <v-icon color="medium-emphasis" icon="mdi-account-plus" size="x-small" start></v-icon>
                         Gerenciar Clientes
                     </v-toolbar-title>
-                    <v-btn class="me-2" prepend-icon="mdi-plus" rounded="lg" text="Adicionar Cliente" border
+                    <v-btn class="me-2" prepend-icon="mdi-plus" rounded="lg" text="Adicionar" border
                         @click="add"></v-btn>
                 </v-toolbar>
             </template>
