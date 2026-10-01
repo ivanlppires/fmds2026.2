@@ -6,20 +6,23 @@
           <v-card-title>Estudando o Fetch</v-card-title>
           <v-card-subtitle>Exemplo de cidades e estado do IBGE e CEP do viacep</v-card-subtitle>
           <v-card-text>
-            O estado selecionado é: {{ selectEstados }}
-            <v-select label="Estado (UF)"
-               v-model="selectEstados" 
-               :items="estados"
-               item-title="nome"
-               item-value="id"              
-               >
-            </v-select>
-            <v-select label="Cidades"
-              v-model="selectCidades"
-              :items="cidades"
-              item-title="nome"
-              item-value="id">
-            </v-select>
+            <v-tabs v-model="tab" color="primary">
+              <v-tab value="ibge">Dados do IBGE</v-tab>
+              <v-tab value="viacep">Dados do ViaCEP</v-tab>
+            </v-tabs>
+            <v-divider></v-divider>
+            <v-container>
+              <v-tabs-window v-model="tab">
+                <v-tabs-window-item value="ibge">
+                  <!-- formulário dados que vem do ibge -->
+                  <FormIbge />
+                </v-tabs-window-item>
+                <v-tabs-window-item value="viacep">
+                  <!-- formulário dados que vem do viacep -->
+                  <FormViaCep />
+                </v-tabs-window-item>
+              </v-tabs-window>
+            </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -32,49 +35,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-// exemplo usando o axios para fazer o fetch
-import axios from 'axios'
-
-const selectEstados = ref(null)
-const selectCidades = ref(null)
-const estados = ref([])
-const cidades = ref([])
-
-// fetch dos estados do IBGE
-// https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome
-
-const getEstados = async () => {
-  const resultado = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
-  let dados = await resultado.json();
-  dados = dados.map( estado => {
-    return {
-      id: estado.id,
-      nome: estado.nome + ' (' + estado.sigla + ')'
-    };
-  });
-  console.log(dados);
-  estados.value = dados;
-}
-
-const getEstadosAxios = async () => {
-  const resultado = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
-  estados.value = resultado.data;
-}
-
-const getCidades = async (idEstado) => {
-  const resultado = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${idEstado}/municipios`)
-  const dados = await resultado.json()
-  cidades.value = dados;
-};
-
-getEstados();
-
-watch(selectEstados, () => {
-  if(selectEstados.value) {
-    getCidades(selectEstados.value)
-  }
-});
-
+import { ref } from 'vue'
+import FormIbge from './components/FormIbge.vue'
+import FormViaCep from './components/FormViaCep.vue'
+const tab = ref('ibge')
 
 </script>
