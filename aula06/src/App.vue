@@ -33,6 +33,9 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+// exemplo usando o axios para fazer o fetch
+import axios from 'axios'
+
 const selectEstados = ref(null)
 const selectCidades = ref(null)
 const estados = ref([])
@@ -46,20 +49,24 @@ const getEstados = async () => {
   const dados = await resultado.json()
   estados.value = dados;
 }
+const getEstadosAxios = async () => {
+  const resultado = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
+  estados.value = resultado.data;
+}
+
 const getCidades = async (idEstado) => {
   const resultado = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${idEstado}/municipios`)
   const dados = await resultado.json()
   cidades.value = dados;
 };
 
-getEstados();
+getEstadosAxios();
 
 watch(selectEstados, () => {
   if(selectEstados.value) {
     getCidades(selectEstados.value)
   }
 });
-
 
 
 </script>
