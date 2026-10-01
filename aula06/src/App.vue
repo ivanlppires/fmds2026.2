@@ -6,15 +6,17 @@
           <v-card-title>Estudando o Fetch</v-card-title>
           <v-card-subtitle>Exemplo de cidades e estado do IBGE e CEP do viacep</v-card-subtitle>
           <v-card-text>
+            O estado selecionado é: {{ selectEstados }}
             <v-select label="Estado (UF)"
                v-model="selectEstados" 
                :items="estados"
                item-title="nome"
-               item-value="id">
+               item-value="id"              
+               >
             </v-select>
             <v-select label="Cidades"
               v-model="selectCidades"
-              :item="cidades"
+              :items="cidades"
               item-title="nome"
               item-value="id">
             </v-select>
@@ -30,9 +32,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const selectEstados = ref(null)
+const selectCidades = ref(null)
 const estados = ref([])
-estados.value.push({ id: 1, nome: 'Acre' })
-estados.value.push({ id: 2, nome: 'Alagoas' })
+const cidades = ref([])
+
+// fetch dos estados do IBGE
+// https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome
+
+const getEstados = async () => {
+  const resultado = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
+  const dados = await resultado.json()
+  estados.value = dados;
+}
+const getCidades = async (idEstado) => {
+  const resultado = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${idEstado}/municipios`)
+  const dados = await resultado.json()
+  cidades.value = dados;
+};
+
+getEstados();
+
+watch(selectEstados, () => {
+  if(selectEstados.value) {
+    getCidades(selectEstados.value)
+  }
+});
+
+
+
 </script>
