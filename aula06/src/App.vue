@@ -46,9 +46,17 @@ const cidades = ref([])
 
 const getEstados = async () => {
   const resultado = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
-  const dados = await resultado.json()
+  let dados = await resultado.json();
+  dados = dados.map( estado => {
+    return {
+      id: estado.id,
+      nome: estado.nome + ' (' + estado.sigla + ')'
+    };
+  });
+  console.log(dados);
   estados.value = dados;
 }
+
 const getEstadosAxios = async () => {
   const resultado = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderby=nome')
   estados.value = resultado.data;
@@ -60,7 +68,7 @@ const getCidades = async (idEstado) => {
   cidades.value = dados;
 };
 
-getEstadosAxios();
+getEstados();
 
 watch(selectEstados, () => {
   if(selectEstados.value) {
