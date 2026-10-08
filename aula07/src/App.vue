@@ -2,18 +2,17 @@
   <v-app>
     <v-main>
       <v-toolbar color="blue-darken-4" dark>
-        <v-toolbar-title>Olá eduardo@unemat.br</v-toolbar-title>
+        <v-toolbar-title v-if="appStore.isLoggedIn">Olá {{ appStore.getUsuario }}</v-toolbar-title>
         <v-spacer />
         <v-btn class="mr-2" variant="elevated" text to="/">Home</v-btn>
         <v-btn class="mr-2" variant="elevated" text to="/login">Login</v-btn>
         <v-btn class="mr-2" variant="elevated" text to="/dashboard" v-if="appStore.isLoggedIn">Dashboard</v-btn>
         <v-btn variant="elevated" text to="/cadastro" v-if="appStore.isLoggedIn">Cadastro</v-btn>
-        <v-spacer />
       </v-toolbar>
       <v-container>
         <router-view />
       </v-container>
-    </v-main>
+    </v-main> 
   </v-app>
 </template>
 

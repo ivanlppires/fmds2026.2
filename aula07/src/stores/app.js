@@ -5,9 +5,11 @@ export const useAppStore = defineStore('app', () => {
 
   // estado
   const logado = ref(false);
+  const usuario = ref(null);
 
   const login = (email, senha) => {
-    if (email === 'ivan@unemat.br' && senha === '123456') {
+    if (email === 'luiz@gmail.com' && senha === '123456') {
+      usuario.value = email;
       logado.value = true;
     } else {
       logado.value = false;
@@ -16,10 +18,13 @@ export const useAppStore = defineStore('app', () => {
 
   const logout = () => {
     logado.value = false;
+    usuario.value = null;
   }
 
   const isLoggedIn = computed(() => logado.value);
 
-  return { login, logout, isLoggedIn }
+  const getUsuario = computed(() => usuario.value);
+
+  return { login, logout, isLoggedIn, getUsuario }
 });
 

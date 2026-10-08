@@ -14,7 +14,7 @@
         </v-card>
         <v-card class="pa-6" width="100%" max-width="400" v-else>
             <v-card-title class="text-h5 text-center justify-center">
-                Bem-vindo Ivan!
+                Bem-vindo {{ appStore.getUsuario }}
             </v-card-title>
             <v-card-text>
                 Você está logado com sucesso.
