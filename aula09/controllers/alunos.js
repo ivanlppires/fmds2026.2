@@ -1,5 +1,4 @@
 const listar = (req, res) => {
-    res.send('Listando alunos');
 }
 
 const buscar = (req, resp) => {
