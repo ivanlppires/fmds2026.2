@@ -1,4 +1,7 @@
-const listar = (req, res) => {
+import db from '../db/mysql.js'
+
+const listar = async (req, res) => {  
+    const [rows] = await db.query('select * from alunos');
 }
 
 const buscar = (req, resp) => {
