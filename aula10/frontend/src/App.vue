@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
-      <!--  -->
+      <MenuList />
     </v-navigation-drawer>
 
     <v-app-bar>
@@ -17,7 +17,8 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+import { ref } from 'vue'
+import MenuList from './components/MenuList.vue'
 
-  const drawer = ref(null)
+const drawer = ref(null)
 </script>
