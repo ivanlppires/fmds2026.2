@@ -1,5 +1,7 @@
 <template>
-  SIGAA 2.0
+  <v-container>
+    Seja bem vindo!
+  </v-container>
 </template>
 
 <script lang="ts" setup>
