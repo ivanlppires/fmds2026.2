@@ -28,3 +28,6 @@ __pycache__/
 *.py[cod]
 venv/
 .venv/
+
+fmds20262-firebase-adminsdk-fbsvc-f978f04707.json
+**/fmds20262-firebase-adminsdk-fbsvc-f978f04707.json
