@@ -17,10 +17,17 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useAppStore } from '../stores/app';
+const appStore = useAppStore();
 const alunos = ref([]);
 const buscarAlunos = async () => {
     try {
-        const result = await fetch('http://localhost:3001/alunos');
+        console.log('Token:', appStore.token);
+        const result = await fetch('http://localhost:3001/alunos', {
+            headers: {
+                'Authorization': `Bearer ${appStore.token}`
+            }
+        });
         const data = await result.json();
         alunos.value = data;
         console.log(alunos.value);
